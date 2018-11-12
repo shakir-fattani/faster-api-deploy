@@ -6,16 +6,6 @@ sample.
 const RESTApi = require('faster-api-deploy');
 const app = new RESTApi();
 
-app.setErrorHandler((err, req, res, next) => {
-    if (res.headerSent) {
-        console.log('Response already sent hence sending error next');
-        return next(err);
-    }
-    return res.status(500).json({
-        msg: err.message ? err.message : err
-    });
-})
-
 app.get("/hello", (req, res) => {
     res.status(200);
 
