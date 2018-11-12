@@ -1,8 +1,8 @@
 # faster-api-deploy
 wrapper over express
 
-sample.
-
+sample code.
+```
 const RESTApi = require('faster-api-deploy');
 const app = new RESTApi();
 
@@ -29,5 +29,5 @@ const sleep = (time) => {
 
 // it's picking info from .env file in root
 app.startListening();
-
+```
 
