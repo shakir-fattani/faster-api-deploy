@@ -1,0 +1,42 @@
+{
+    "url": "https://www.googleapis.com/youtube/v3/channels?part=snippet&forUsername=HumNetwork&key=AIzaSyB2v-_O1IgUdRjQjQd_b2l6Jx_NaYvlqoI",
+    "kind": "youtube#channelListResponse",
+    "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/a6DYcWUsOZZ5hOdtK-LZTNGuxvQ\"",
+    "pageInfo": {
+        "totalResults": 1,
+        "resultsPerPage": 5
+    },
+    "items": [{
+        "kind": "youtube#channel",
+        "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/G7X954o4KAW8nCLpEgJSXQPSyDM\"",
+        "id": "UCEeEQxm6qc_qaTE7qTV5aLQ",
+        "snippet": {
+            "title": "HUM TV",
+            "description": "Hum TV is the Pakistan's Premier TV Channel Geared Towards Providing Quality Entertainment TV Dramas for the Entire Family to all over the world.\n\nWatch Live Pakistani Dramas online in HD quality at official HUM TV YouTube Channel. Latest Episodes, Live Shows, Drama OST's and Latest Pakistani Dramas Videos, Special show, Telefilm Dramas. Enjoy best Pakistani Urdu dramas on HUM TV official channel with best dramatic scene, sound and surprise.  \n\nWatch our official channels:\nhttps://www.hum.tv/\nhttps://www.facebook.com/humtvpakistan \nhttps://www.instagram.com/humtvpakistanofficial/\nhttps://www.dailymotion.com/humtv \nhttps://www.youtube.com/HumNetwork\nhttps://www.youtube.com/humtvost\nhttp://blogs.humnetwork.com \nhttp://vod.humnetwork.com",
+            "customUrl": "humtvpak",
+            "publishedAt": "2011-05-25T15:15:07.000Z",
+            "thumbnails": {
+                "default": {
+                    "url": "https://yt3.ggpht.com/a-/AN66SAyWPSbBVOygm0lt_Z0UGPTk-qQYVkEfeO5KpA=s88-mo-c-c0xffffffff-rj-k-no",
+                    "width": 88,
+                    "height": 88
+                },
+                "medium": {
+                    "url": "https://yt3.ggpht.com/a-/AN66SAyWPSbBVOygm0lt_Z0UGPTk-qQYVkEfeO5KpA=s240-mo-c-c0xffffffff-rj-k-no",
+                    "width": 240,
+                    "height": 240
+                },
+                "high": {
+                    "url": "https://yt3.ggpht.com/a-/AN66SAyWPSbBVOygm0lt_Z0UGPTk-qQYVkEfeO5KpA=s800-mo-c-c0xffffffff-rj-k-no",
+                    "width": 800,
+                    "height": 800
+                }
+            },
+            "localized": {
+                "title": "HUM TV",
+                "description": "Hum TV is the Pakistan's Premier TV Channel Geared Towards Providing Quality Entertainment TV Dramas for the Entire Family to all over the world.\n\nWatch Live Pakistani Dramas online in HD quality at official HUM TV YouTube Channel. Latest Episodes, Live Shows, Drama OST's and Latest Pakistani Dramas Videos, Special show, Telefilm Dramas. Enjoy best Pakistani Urdu dramas on HUM TV official channel with best dramatic scene, sound and surprise.  \n\nWatch our official channels:\nhttps://www.hum.tv/\nhttps://www.facebook.com/humtvpakistan \nhttps://www.instagram.com/humtvpakistanofficial/\nhttps://www.dailymotion.com/humtv \nhttps://www.youtube.com/HumNetwork\nhttps://www.youtube.com/humtvost\nhttp://blogs.humnetwork.com \nhttp://vod.humnetwork.com"
+            },
+            "country": "PK"
+        }
+    }]
+}

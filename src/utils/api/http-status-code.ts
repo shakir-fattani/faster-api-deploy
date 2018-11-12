@@ -1,0 +1,48 @@
+export const HTTP_S_OK = 200;
+export const HTTP_S_CREATED = 201;
+export const HTTP_S_ACCEPTED = 202;
+export const HTTP_S_NON_AUTHORITATIVE_INFORMATION = 203;
+export const HTTP_S_NO_CONTENT = 204;
+export const HTTP_S_RESET_CONTENT = 205;
+export const HTTP_S_PARTIAL_CONTENT = 206;
+export const HTTP_S_MULTI_STATUS = 207;
+export const HTTP_S_ALREADY_REPORTED = 208;
+export const HTTP_S_IM_USED = 226;
+
+export const HTTP_R_MULTIPLE_CHOICES = 300;
+export const HTTP_R_MOVED_PERMANENTLY = 301;
+export const HTTP_R_FOUND = 302;
+export const HTTP_R_SEE_OTHER = 303;
+export const HTTP_R_NOT_MODIFIED = 304;
+export const HTTP_R_USE_PROXY = 305;
+export const HTTP_R_SWITCH_PROXY = 306;
+export const HTTP_R_TEMPORARY_REDIRECT = 307;
+export const HTTP_R_PERMANENTLY_REDIRECT = 308;
+
+export const HTTP_CE_BAD_REQUEST = 400;
+export const HTTP_CE_UNAUTHORIZED = 401;
+export const HTTP_CE_PAYMENT_REQUIRED = 402;
+export const HTTP_CE_FORBIDDEN = 403;
+export const HTTP_CE_NOT_FOUND = 404;
+export const HTTP_CE_METHOD_NOT_ALLOWED = 405;
+export const HTTP_CE_NOT_ACCEPTABLE = 406;
+export const HTTP_CE_REQUEST_TIMEOUT = 408;
+export const HTTP_CE_CONFLICT = 409;
+export const HTTP_CE_GONE = 410;
+export const HTTP_CE_EXPECTATION_FAIL = 417;
+export const HTTP_CE_UPGRADE_REQUIRED = 426;
+export const HTTP_CE_TOO_MANY_REQUEST = 429;
+
+export const HTTP_SE_INTERNAL_ERROR = 500;
+export const HTTP_SE_NOT_IMPLEMENTED = 501;
+export const HTTP_SE_SERVICE_UNAVAILABLE = 503;
+export const HTTP_SE_LOOP_DETECTED = 508;
+export const HTTP_SE_NOT_EXTENDED = 510;
+export const HTTP_SE_NETWORK_AUTHENTICATION_REQUIRED = 511;
+
+export const HTTP_BACKEND = HTTP_SE_INTERNAL_ERROR;
+export const DB_ERROR = HTTP_SE_SERVICE_UNAVAILABLE;
+export const CRYPT_ERROR = HTTP_SE_INTERNAL_ERROR;
+export const IMAGE_ERROR = HTTP_SE_INTERNAL_ERROR;
+
+export default HTTP_S_OK;
