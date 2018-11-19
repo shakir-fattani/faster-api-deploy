@@ -129,7 +129,6 @@ export default class RESTApi {
                 console.log(`\tPress CTRL-C to stop `)
                 res(self.server);
             });
-            // return ;
         })
     }
 
@@ -146,29 +145,3 @@ export default class RESTApi {
         return CONSOLE_COLORS;
     }
 }
-// export {
-//     RESTApi,
-//     RESTRouter,
-//     RESTResponse,
-
-//     // Error
-//     AppError,
-//     AppNotExists,
-//     NotFound,
-
-//     // http status code
-//     HTTP_STATUS,
-
-//     // console colors
-//     CONSOLE_COLORS
-// }
-
-
-
-// const restApi = () => {
-//     return new RESTApi();
-// }
-
-// restApi.prototype.RESTApi = RESTApi;
-// export default restApi;
-// export default RESTApi;
