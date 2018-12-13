@@ -40,7 +40,7 @@ export default class RESTRouter {
             try {
                 let r = undefined;
                 for (var i = 0; i < handler.length; i++) {
-                    let cb = handler.length > i+1 ? handler[i+1] : next;
+                    let cb = handler.length > i + 1 ? handler[i + 1] : next;
                     r = await handler[i](req, res, cb);
                 }
                 if (r) {
