@@ -11,8 +11,12 @@
     "watch-node": "nodemon --delay 1000ms --watch dist dist/server.js ",
     "watch-ts": "tsc -w"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shakir-betube/faster-api-deploy.git"
+  },
+  "author": "Shakir Fattani",
+  "license": "GNU General Public License v3.0",
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
     "@types/compression": "^0.0.35",
