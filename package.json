@@ -14,7 +14,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/bluebird": "^3.5.5",
     "@types/body-parser": "^1.17.0",
     "@types/compression": "^0.0.35",
     "@types/dotenv": "^4.0.3",

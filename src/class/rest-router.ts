@@ -19,6 +19,15 @@ export default class RESTRouter {
         })
     }
 
+    
+    expressUseSingleParam(a: any){
+        this.router.use(a)
+    }
+
+    expressUseDoubleParam(a:any, b:any){
+        this.router.use(a, b)
+    }
+
     use(path: string, handler: RESTRouter): void {
         this.router.use(path, handler.router)
     }
@@ -27,10 +36,12 @@ export default class RESTRouter {
         this.router.use(path, express.static(dir));
     }
 
-    static getCommonRequestWrapper(handler: IRESTReqProcess): RequestHandler{
+    static getCommonRequestWrapper(handler: IRESTReqProcess[]): RequestHandler{
         return async (req, res, next) => {
             try {
-                let r = await handler(req, res, next)
+                let r = null;
+                for (var handFun of handler)
+                    r = await handFun(req, res, next)
                 if (r) {
                     if (!(r instanceof RESTResponse))
                         r = new RESTResponse(r);
@@ -42,35 +53,35 @@ export default class RESTRouter {
         };
     }
 
-    get(path: string, handler: IRESTReqProcess): void {
+    get(path: string, ...handler: IRESTReqProcess[]): void {
         this.router.get(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    head(path: string, handler: IRESTReqProcess): void {
+    head(path: string, ...handler: IRESTReqProcess[]): void {
         this.router.head(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    patch(path: string, handler: IRESTReqProcess): void {
+    patch(path: string, ...handler: IRESTReqProcess[]): void {
         this.router.patch(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    options(path: string, handler: IRESTReqProcess): void {
+    options(path: string, ...handler: IRESTReqProcess[]): void {
         this.router.options(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    put(path: string, handler: IRESTReqProcess): void {
+    put(path: string, ...handler: IRESTReqProcess[]): void {
         this.router.put(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    delete(path: string, handler: IRESTReqProcess): void {
+    delete(path: string, ...handler: IRESTReqProcess[]): void {
         this.router.delete(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    all(path: string, handler: IRESTReqProcess): void {
+    all(path: string, ...handler: IRESTReqProcess[]): void {
         this.router.all(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    post(path: string, handler: IRESTReqProcess): void {
+    post(path: string, ...handler: IRESTReqProcess[]): void {
         this.router.post(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 }

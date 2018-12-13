@@ -2,6 +2,9 @@ import * as express from 'express'
 import * as compression from "compression";
 import { json, urlencoded } from "body-parser";
 import * as dotenv from "dotenv";
+import * as fs from 'fs';
+import * as multer from 'multer';
+
 import { Server } from 'http';
 import AppError from '../error/app-error';
 import NotFound from '../error/not-found';
@@ -35,6 +38,7 @@ export default class RESTApi {
         this.app.use(compression());
         this.app.use(urlencoded({ extended: true }));
         this.app.use(json());
+
         dotenv.config({ path: ".env" });
         this.app.disable('x-powered-by');
         this.app.use((req, res, next) => {
@@ -72,6 +76,14 @@ export default class RESTApi {
         this.app.use(this.errorHandler);
     }
 
+    expressUseSingleParam(a: any){
+        this.app.use(a)
+    }
+
+    expressUseDoubleParam(a:any, b:any){
+        this.app.use(a, b)
+    }
+
     defineWeb(path: string, dir: string): void{
         this.app.use(path, express.static(dir));
     }
@@ -84,35 +96,35 @@ export default class RESTApi {
         this.app.use(path, handler.router)
     }
 
-    get(path: string, handler: IRESTReqProcess): void {
+    get(path: string, ...handler: IRESTReqProcess[]): void {
         this.app.get(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    head(path: string, handler: IRESTReqProcess): void {
+    head(path: string, ...handler: IRESTReqProcess[]): void {
         this.app.head(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    patch(path: string, handler: IRESTReqProcess): void {
+    patch(path: string, ...handler: IRESTReqProcess[]): void {
         this.app.patch(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    options(path: string, handler: IRESTReqProcess): void {
+    options(path: string, ...handler: IRESTReqProcess[]): void {
         this.app.options(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    put(path: string, handler: IRESTReqProcess): void {
+    put(path: string, ...handler: IRESTReqProcess[]): void {
         this.app.put(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    delete(path: string, handler: IRESTReqProcess): void {
+    delete(path: string, ...handler: IRESTReqProcess[]): void {
         this.app.delete(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    all(path: string, handler: IRESTReqProcess): void {
+    all(path: string, ...handler: IRESTReqProcess[]): void {
         this.app.all(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
-    post(path: string, handler: IRESTReqProcess): void {
+    post(path: string, ...handler: IRESTReqProcess[]): void {
         this.app.post(path, RESTRouter.getCommonRequestWrapper(handler))
     }
 
