@@ -19,7 +19,7 @@ export default class RESTResponse {
 
     sendResponse(response: Response) {
         response.status(this.statusCode);
-
+        console.log(this.body)
         if (this.contentType == RESTResponse.JSON_CONTENT_TYPE){
             response.json(this.body);
         } else {

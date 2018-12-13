@@ -9,7 +9,6 @@ const object = {
     path: "/",
     visible: true,
     cbf: async (req) => {
-        console.log("/")
     },
     childs: {
         // "api" :{
@@ -30,7 +29,6 @@ const object = {
         // },
     }
 }
-console.log(object)
 
 
 // url must be "/api/user/login"
@@ -59,5 +57,4 @@ const addApiCall = (url) => {
             }
         }
     }
-    console.log()
 }

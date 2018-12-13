@@ -18,6 +18,7 @@ export default class RESTApi {
     appName: string = "REST API";
     version: string = "1.0";
     errorHandler = (err, req, res, next) => {
+        console.trace(err)
         if (res.headerSent) {
             console.log('Response already sent hence sending error next');
             return next(err);

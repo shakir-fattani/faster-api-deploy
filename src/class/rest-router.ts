@@ -19,11 +19,11 @@ export default class RESTRouter {
         })
     }
 
-    expressUseSingleParam(a: any){
+    expressUseSingleParam(a: any) {
         this.router.use(a)
     }
 
-    expressUseDoubleParam(a:any, b:any){
+    expressUseDoubleParam(a: any, b: any) {
         this.router.use(a, b)
     }
 
@@ -31,17 +31,18 @@ export default class RESTRouter {
         this.router.use(path, handler.router)
     }
 
-    defineWeb(path: string, dir: string): void{
+    defineWeb(path: string, dir: string): void {
         this.router.use(path, express.static(dir));
     }
 
-    static getCommonRequestWrapper(handler: IRESTReqProcess[]): RequestHandler{
+    static getCommonRequestWrapper(handler: IRESTReqProcess[]): RequestHandler {
         return async (req, res, next: IRESTReqProcess) => {
             try {
-                handler.push(next);
-                let r = null;
-                for (var i = 0 ; i < handler.length ; i++)
-                    r = await handler[i](req, res, handler.length > i+1 ? handler[i+1] : undefined)
+                let r = undefined;
+                for (var i = 0; i < handler.length; i++) {
+                    let cb = handler.length > i+1 ? handler[i+1] : next;
+                    r = await handler[i](req, res, cb);
+                }
                 if (r) {
                     if (!(r instanceof RESTResponse))
                         r = new RESTResponse(r);
