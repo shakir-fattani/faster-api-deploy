@@ -2,9 +2,6 @@ import * as express from 'express'
 import * as compression from "compression";
 import { json, urlencoded } from "body-parser";
 import * as dotenv from "dotenv";
-import * as fs from 'fs';
-import * as multer from 'multer';
-
 import { Server } from 'http';
 import AppError from '../error/app-error';
 import NotFound from '../error/not-found';

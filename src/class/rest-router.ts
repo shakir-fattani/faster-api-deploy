@@ -19,7 +19,6 @@ export default class RESTRouter {
         })
     }
 
-    
     expressUseSingleParam(a: any){
         this.router.use(a)
     }
