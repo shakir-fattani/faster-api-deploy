@@ -1,14 +1,19 @@
 import RESTRouter from '../class/rest-router';
 import RESTResponse from '../class/api/rest-Response';
 import AppError from '../error';
+import { Request, Response, NextFunction } from 'express'
 
 let restRouter = new RESTRouter();
 
-restRouter.all("/user", async (req) => {
+restRouter.all("/user", async (req: Request, res:Response, next:NextFunction) => {
+    console.log("wwwww")
+    next()
+}, async () => {
+        console.log("sss");
     return new RESTResponse({ message: "success", data: [] })
 });
 
-restRouter.filter((req, res, next) => {
+restRouter.filter(() => {
     throw new AppError("testing fired");
 })
 

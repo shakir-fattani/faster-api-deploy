@@ -3,7 +3,7 @@ import RESTResponse from '../class/api/rest-Response';
 import testRouter from './test'
 let restRouter = new RESTRouter();
 
-restRouter.all("/user", async (req) => {
+restRouter.all("/user", async () => {
     return new RESTResponse({ message: "success", data: [] })
 });
 

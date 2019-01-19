@@ -17,7 +17,7 @@ export default class RESTResponse {
         this.statusCode = statusCode;
     }
 
-    sendResponse(response: Response) {
+    sendResponse(response: Response): void {
         response.status(this.statusCode);
         if (this.contentType == RESTResponse.JSON_CONTENT_TYPE){
             response.json(this.body);
