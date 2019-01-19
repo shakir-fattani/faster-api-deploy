@@ -6,7 +6,6 @@ const HOST = os.hostname()
 
 const COMMON_HEADER = {}
 
-
 const addCommonHeader = (key, value) => {
     COMMON_HEADER[key] = value;
 }
