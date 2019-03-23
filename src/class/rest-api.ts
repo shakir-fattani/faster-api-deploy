@@ -27,7 +27,7 @@ export default class RESTApi {
     errorHandler = (err, req, res, next) => {
         if (!(err instanceof NotFound))
             console.trace(err)
-            else
+        else
             console.error(err.message)
         if (res.headerSent) {
             console.log('Response already sent hence sending error next');
@@ -112,6 +112,12 @@ export default class RESTApi {
 
     use(path: string, handler: RESTRouter): RESTApi {
         this.app.use(path, handler.router)
+        return this;
+    }
+
+    
+    filter(...handler: IRESTReqProcess[]): RESTApi {
+        this.app.use(RESTRouter.getCommonRequestWrapper(handler))
         return this;
     }
 

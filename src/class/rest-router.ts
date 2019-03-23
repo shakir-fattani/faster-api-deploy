@@ -42,17 +42,29 @@ export default class RESTRouter {
     static getCommonRequestWrapper(mh: IRESTReqProcess[]): RequestHandler {
         return async (req, res, next) => {
             let handler = mh.filter(i => true);
+            
             let nextFunc = async (error) => {
                 if (error) {
                     next(error);
                     return;
                 }
                 try {
-                    let r = await handler.shift()(req, res, nextFunc)
-                    if (r) {
-                        if (!(r instanceof RESTResponse))
-                            r = new RESTResponse(r);
-                        r.sendResponse(res)
+                    console.log(handler)
+                    if (handler.length > 0){
+                        let r = await handler.shift()(req, res, nextFunc)
+                        if (r) {
+                            if (!(r instanceof RESTResponse))
+                                r = new RESTResponse(r);
+                            r.sendResponse(res)
+                        }
+                    } else {
+                        if (next)
+                            await next()
+                        // if (r) {
+                        //     if (!(r instanceof RESTResponse))
+                        //         r = new RESTResponse(r);
+                        //     r.sendResponse(res)
+                        // }
                     }
                 } catch (e) {
                     next(e)
