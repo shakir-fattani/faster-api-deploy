@@ -74,6 +74,11 @@ export default class RESTRouter {
         };
     }
 
+    setRESTApiRouter(restRouter: RESTRouter): RESTRouter {
+        this.router.use(restRouter.router);
+        return this;
+    }
+
     get(path: string, ...handler: IRESTReqProcess[]): RESTRouter {
         this.router.get(path, RESTRouter.getCommonRequestWrapper(handler))
         return this;

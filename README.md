@@ -6,6 +6,13 @@ sample code.
 const RESTApi = require('faster-api-deploy');
 const app = new RESTApi();
 
+app.get("/returnExample", (req, res) => {
+
+    return {
+        message: "success"
+    }
+});
+
 app.get("/hello", (req, res) => {
     res.status(200);
 
@@ -14,9 +21,14 @@ app.get("/hello", (req, res) => {
     }
 });
 
-app.get("/he", async (req, res) => {
+app.get("/error", async (req, res) => {
     await sleep(300);
     throw "ssssssssssssssssssssssss"
+});
+
+app.get("/sleep", async (req, res) => {
+    await sleep(300);
+    return {message: "hello world"};
 });
 
 const sleep = (time) => {

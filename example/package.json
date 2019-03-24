@@ -1,0 +1,14 @@
+{
+  "name": "example-faster-api-deploy",
+  "version": "1.0.0",
+  "description": "Simple Example of Faster api deploy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shakir Fattani",
+  "license": "GNU General Public License v3.0",
+  "dependencies": {
+    "faster-api-deploy": "^1.0.24"
+  }
+}
