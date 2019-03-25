@@ -44,8 +44,8 @@ export default class RESTApi {
     constructor(basePath: String = "") {
         this.app = express();
         this.app.use(compression());
-        this.app.use(urlencoded({ extended: true }));
-        this.app.use(json());
+        this.app.use(urlencoded({limit: '50mb', extended: true}));
+        this.app.use(json({limit: '50mb', extended: true}));
 
         dotenv.config({ path: ".env" });
         this.app.disable('x-powered-by');

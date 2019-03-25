@@ -49,7 +49,7 @@ export default class RESTRouter {
                     return;
                 }
                 try {
-                    console.log(handler)
+                    // console.log(handler)
                     if (handler.length > 0){
                         let r = await handler.shift()(req, res, nextFunc)
                         if (r) {
