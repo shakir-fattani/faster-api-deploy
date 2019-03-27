@@ -22,6 +22,7 @@ import * as CONSOLE_COLORS from './../utils/colors'
 export default class RESTApi {
     app: express.Express;
     server: Server;
+    appRouter: RESTRouter;
     appName: string = "REST API";
     version: string = "1.0";
     errorHandler = (err, req, res, next) => {
@@ -43,9 +44,10 @@ export default class RESTApi {
 
     constructor(basePath: String = "") {
         this.app = express();
+        this.appRouter = new RESTRouter();
         this.app.use(compression());
         this.app.use(urlencoded({limit: '50mb', extended: true}));
-        this.app.use(json({limit: '50mb', extended: true}));
+        this.app.use(json({limit: '50mb'}));
 
         dotenv.config({ path: ".env" });
         this.app.disable('x-powered-by');
@@ -91,78 +93,85 @@ export default class RESTApi {
     }
 
     expressUseSingleParam(a: any): RESTApi {
-        this.app.use(a)
+        this.appRouter.expressUseSingleParam(a)
         return this;
     }
 
     expressUseDoubleParam(a: any, b: any): RESTApi {
-        this.app.use(a, b)
+        this.appRouter.expressUseDoubleParam(a, b)
         return this;
     }
 
     defineWeb(path: string, dir: string): RESTApi {
-        this.app.use(path, express.static(dir));
+        this.appRouter.defineWeb(path, dir);
         return this;
     }
 
-    setRESTApiRouter(restRouter: RESTRouter): RESTApi {
-        this.app.use(restRouter.router);
+    setRESTApiRouter(handler: RESTRouter): RESTApi {
+        this.appRouter.setRESTApiRouter(handler)
         return this;
     }
 
     use(path: string, handler: RESTRouter): RESTApi {
-        this.app.use(path, handler.router)
+        this.appRouter.use(path, handler);
         return this;
     }
 
-    
+    smartfilter(...handler: IRESTReqProcess[]): RESTApi {
+        this.appRouter.smartfilter.apply(this.appRouter, handler);
+        return this;
+    }
+
     filter(...handler: IRESTReqProcess[]): RESTApi {
-        this.app.use(RESTRouter.getCommonRequestWrapper(handler))
+        this.appRouter.filter.apply(this.appRouter, handler);
+        // this.app.use(RESTRouter.getCommonRequestWrapper(handler))
         return this;
     }
 
-    get(path: string, ...handler: IRESTReqProcess[]): RESTApi {
-        this.app.get(path, RESTRouter.getCommonRequestWrapper(handler))
+    get(path: string | IRESTReqProcess, ...handler: IRESTReqProcess[]): RESTApi {
+        this.appRouter.get.apply(this.appRouter, [path].concat(handler));
         return this;
     }
 
-    head(path: string, ...handler: IRESTReqProcess[]): RESTApi {
-        this.app.head(path, RESTRouter.getCommonRequestWrapper(handler))
+    head(path: string | IRESTReqProcess, ...handler: IRESTReqProcess[]): RESTApi {
+        this.appRouter.head.apply(this.appRouter, [path].concat(handler));
         return this;
     }
 
-    patch(path: string, ...handler: IRESTReqProcess[]): RESTApi {
-        this.app.patch(path, RESTRouter.getCommonRequestWrapper(handler))
+    patch(path: string | IRESTReqProcess, ...handler: IRESTReqProcess[]): RESTApi {
+        this.appRouter.patch.apply(this.appRouter, [path].concat(handler));
         return this;
     }
 
-    options(path: string, ...handler: IRESTReqProcess[]): RESTApi {
-        this.app.options(path, RESTRouter.getCommonRequestWrapper(handler))
+    options(path: string | IRESTReqProcess, ...handler: IRESTReqProcess[]): RESTApi {
+        this.appRouter.options.apply(this.appRouter, [path].concat(handler));
         return this;
     }
 
-    put(path: string, ...handler: IRESTReqProcess[]): RESTApi {
-        this.app.put(path, RESTRouter.getCommonRequestWrapper(handler))
+    put(path: string | IRESTReqProcess, ...handler: IRESTReqProcess[]): RESTApi {
+        this.appRouter.put.apply(this.appRouter, [path].concat(handler));
         return this;
     }
 
-    delete(path: string, ...handler: IRESTReqProcess[]): RESTApi {
-        this.app.delete(path, RESTRouter.getCommonRequestWrapper(handler))
+    delete(path: string | IRESTReqProcess, ...handler: IRESTReqProcess[]): RESTApi {
+        this.appRouter.delete.apply(this.appRouter, [path].concat(handler));
         return this;
     }
 
-    all(path: string, ...handler: IRESTReqProcess[]): RESTApi {
-        this.app.all(path, RESTRouter.getCommonRequestWrapper(handler))
+    all(path: string | IRESTReqProcess, ...handler: IRESTReqProcess[]): RESTApi {
+        this.appRouter.all.apply(this.appRouter, [path].concat(handler));
         return this;
     }
 
-    post(path: string, ...handler: IRESTReqProcess[]): RESTApi {
-        this.app.post(path, RESTRouter.getCommonRequestWrapper(handler))
+    post(path: string | IRESTReqProcess, ...handler: IRESTReqProcess[]): RESTApi {
+        this.appRouter.post.apply(this.appRouter, [path].concat(handler));
         return this;
     }
 
     startListening(port: string = process.env.PORT, appName: string = process.env.APP_NAME, mode: string = process.env.ENV): Promise<Server> {
         const self = this;
+
+        self.app.use(this.appRouter.router);
         return new Promise<Server>((res, rej) => {
             if (appName)
                 self.appName = appName;

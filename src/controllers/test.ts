@@ -10,7 +10,7 @@ restRouter.all("/user", async (req: Request, res:Response, next:NextFunction) =>
     next()
 }, async () => {
         console.log("sss");
-    return new RESTResponse({ message: "success", data: [] })
+    return new RESTResponse({ message: "succ4574ess", data: [] })
 });
 
 restRouter.filter(() => {
