@@ -38,7 +38,7 @@ export default class RESTRouter {
 
     // not recommened
     expressUseParam(...a: any[]): RESTRouter {
-        let smartFilter = RESTRouter.getCommonRequestWrapper([], this.getFiltersCall);
+        let smartFilter = RESTRouter.getCommonRequestWrapper([], this.getFiltersCall.bind(this));
         this.router.use(smartFilter, a)
         return this;
     }
@@ -51,9 +51,9 @@ export default class RESTRouter {
     }
 
     // not recommened
-    expressUseDoubleParam(a: any, b: any): RESTRouter {
+    expressUseDoubleParam(a: string, b: any): RESTRouter {
         let smartFilter = RESTRouter.getCommonRequestWrapper([], this.getFiltersCall.bind(this));
-        this.router.use(smartFilter, a, b)
+        this.router.use(a, smartFilter, b);
         return this;
     }
 

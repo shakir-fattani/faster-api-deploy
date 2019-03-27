@@ -25,11 +25,12 @@ export default class RESTApi {
     appRouter: RESTRouter;
     appName: string = "REST API";
     version: string = "1.0";
+    mode: String = "PRODUCTION";
     errorHandler = (err, req, res, next) => {
         if (!(err instanceof NotFound))
-            console.trace(err)
+            console.error(err)
         else
-            console.error(err.message)
+            console.error(err)
         if (res.headerSent) {
             console.log('Response already sent hence sending error next');
             return next(err);
