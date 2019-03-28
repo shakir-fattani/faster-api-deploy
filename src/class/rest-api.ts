@@ -29,7 +29,7 @@ export default class RESTApi {
     errorHandler = (err, req, res, next) => {
         if (getDebugLevel() < 5){
             if (!(err instanceof NotFound))
-                console.error(err)
+                console.error(err.message ? err.message : err)
         } else {
             if (!(err instanceof NotFound))
                 console.error(err)
@@ -82,7 +82,7 @@ export default class RESTApi {
     static setDebugLevel(level: number = 5){
         setDebugLevel(level)
     }
-    
+
     static getDebugLevel():number{
         return getDebugLevel()
     }
