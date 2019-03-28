@@ -1,6 +1,6 @@
 import * as os from 'os';
 
-let debug = 0;
+let debug: number = 0;
 
 const HOST = os.hostname()
 
@@ -18,11 +18,11 @@ setVersion('1.0');
 setApiVersion('1.0');
 
 
-const getDebugLevel = () => {
+const getDebugLevel = (): number => {
     return debug
 }
 
-const setDebugLevel = (debugLevel = 10) => {
+const setDebugLevel = (debugLevel: number = 10) => {
     debug = debugLevel;
 }
 

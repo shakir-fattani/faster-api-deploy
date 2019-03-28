@@ -13,7 +13,7 @@ import AppNotExists from '../error/app-not-exists';
 import DBError from '../error/db-error';
 
 import RESTRouter from './rest-router';
-import { COMMON_HEADER, setVersion, setPoweredBy, addCommonHeader, setApiVersion } from '../config';
+import { COMMON_HEADER, setVersion, setPoweredBy, addCommonHeader, setApiVersion, getDebugLevel, setDebugLevel } from '../config';
 import IRESTReqProcess from './api/interface/rest-req-process';
 import RESTResponse from './api/rest-Response';
 import * as HTTP_STATUS from './../utils/api/http-status-code'
@@ -27,10 +27,15 @@ export default class RESTApi {
     version: string = "1.0";
     mode: String = "PRODUCTION";
     errorHandler = (err, req, res, next) => {
-        if (!(err instanceof NotFound))
-            console.error(err)
-        else
-            console.error(err)
+        if (getDebugLevel() < 5){
+            if (!(err instanceof NotFound))
+                console.error(err)
+        } else {
+            if (!(err instanceof NotFound))
+                console.error(err)
+            else
+                console.error(err)
+        }
         if (res.headerSent) {
             console.log('Response already sent hence sending error next');
             return next(err);
@@ -72,6 +77,14 @@ export default class RESTApi {
     setPoweredBy(poweredBy): RESTApi {
         setPoweredBy(poweredBy)
         return this;
+    }
+
+    static setDebugLevel(level: number = 5){
+        setDebugLevel(level)
+    }
+    
+    static getDebugLevel():number{
+        return getDebugLevel()
     }
 
     addCommonHeader(key, value): RESTApi {
