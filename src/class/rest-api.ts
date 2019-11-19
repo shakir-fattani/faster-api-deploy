@@ -51,7 +51,7 @@ export default class RESTApi {
     constructor(basePath: String = "") {
         this.app = express();
         this.appRouter = new RESTRouter();
-        this.app.use(compression());
+        // this.app.use(compression());
         this.app.use(urlencoded({limit: '50mb', extended: true}));
         this.app.use(json({limit: '50mb'}));
 
