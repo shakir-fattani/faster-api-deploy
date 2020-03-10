@@ -44,13 +44,10 @@ export default class RESTApi {
             return res.status(err.status).json({ error: err.message });
         else if (err instanceof Error)
             return res.status(500).json({ code: 515, error: "Internal Server Error" });
-
         else if (err instanceof Object)
             return res.status(500).json(err);
-        else if (typeof err === 'string')
-            return res.status(500).json({ code: 515, error: err });
         else
-            return res.status(500).json({ code: 515, error: err.message ? err.message : err });
+            return res.status(500).json({ code: 515, error: err });
     }
 
     constructor(basePath: String = "", {
