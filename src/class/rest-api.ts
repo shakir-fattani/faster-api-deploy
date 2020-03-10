@@ -54,8 +54,8 @@ export default class RESTApi {
         isSupportJSON = true,
         isSupportURLEncode = false,
         isSupportText = false,
-        isSupportRaw = false,
-    }) {
+        isSupportRaw = false
+    } = {}) {
         this.app = express();
         this.appRouter = new RESTRouter();
 
