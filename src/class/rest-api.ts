@@ -41,7 +41,7 @@ export default class RESTApi {
         }
 
         if (err instanceof AppError)
-            return res.status(err.status).json({ code: err.status, error: err.message });
+            return res.status(err.status).json({ error: err.message });
         else if (err instanceof Error)
             return res.status(500).json({ code: 515, error: "Internal Server Error" });
         else if (typeof err === 'string')
