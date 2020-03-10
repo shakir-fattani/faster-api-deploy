@@ -76,11 +76,11 @@ export default class RESTRouter {
         return this.parentFilterCaller(ids.concat([this._id])).concat(this.smartFilterList);
     }
 
-    static filterToReqProcess(list: RESTFilter[]) : IRESTReqProcess[]{
+    static filterToReqProcess(list: RESTFilter[]): IRESTReqProcess[] {
         let temp = {}
         for (let rf of list)
-            if(!(rf.id in temp))
-                temp[rf.id] = rf 
+            if (!(rf.id in temp))
+                temp[rf.id] = rf
 
         return Object.keys(temp).map(r => temp[r].func)
     }
@@ -95,17 +95,16 @@ export default class RESTRouter {
                     return;
                 }
                 try {
-                    if (handler.length > 0) {
-                        let r = await handler.shift()(req, res, nextFunc)
-                        if (r) {
-                            if (!(r instanceof RESTResponse))
-                                r = new RESTResponse(r);
-                            r.sendResponse(res)
-                        }
-                    } else {
-                        if (next)
-                            await next()
+                    if (handler.length < 1) {
+                        next && await next()
+                        return
                     }
+                    let r = await handler.shift()(req, res, nextFunc)
+                    if (r) {
+                        !(r instanceof RESTResponse) && (r = new RESTResponse(r))
+                        r.sendResponse(res)
+                    }
+
                 } catch (e) {
                     next(e)
                 }
@@ -125,7 +124,7 @@ export default class RESTRouter {
     }
 
     head(path: string, ...handler: IRESTReqProcess[]): RESTRouter {
-        this.router.head(path,RESTRouter.getCommonRequestWrapper(handler, this.getFiltersCall.bind(this)))
+        this.router.head(path, RESTRouter.getCommonRequestWrapper(handler, this.getFiltersCall.bind(this)))
         return this;
     }
 
@@ -151,6 +150,11 @@ export default class RESTRouter {
 
     all(path: string, ...handler: IRESTReqProcess[]): RESTRouter {
         this.router.all(path, RESTRouter.getCommonRequestWrapper(handler, this.getFiltersCall.bind(this)))
+        return this;
+    }
+
+    setErrorHandler(func): RESTRouter {
+        this.router.use((err, req, res, next) => func(err, req, res, next))
         return this;
     }
 

@@ -1,6 +1,5 @@
 import * as express from 'express'
-import { json, urlencoded } from "body-parser";
-import * as dotenv from "dotenv";
+import * as bodyParser from "body-parser";
 import { Server } from 'http';
 import AppError from '../error/app-error';
 import NotFound from '../error/not-found';
@@ -21,44 +20,60 @@ import * as CONSOLE_COLORS from './../utils/colors'
 export default class RESTApi {
     app: express.Express;
     server: Server;
+    listeningIp: string = "127.0.0.1";
     appRouter: RESTRouter;
     appName: string = "REST API";
     version: string = "1.0";
-    mode: String = "PRODUCTION";
+    port: number = 23200;
+    mode: string = "PRODUCTION";
     errorHandler = (err, req, res, next) => {
-        if (getDebugLevel() < 5){
-            if (!(err instanceof NotFound))
+        if (!(err instanceof NotFound)) {
+            if (getDebugLevel() < 5) {
                 console.error(err.detail ? err.detail : (err.message ? err.message : err))
-        } else {
-            if (!(err instanceof NotFound))
+            } else {
                 console.error(err)
-            else
-                console.error(err)
+            }
         }
+
         if (res.headerSent) {
             console.log('Response already sent hence sending error next');
             return next(err);
         }
 
         if (err instanceof AppError)
-            return res.status(err.status).json({ error: err.message });
-        else {
-            return res.status(500).json({ error: err.message ? err.message : err });
-        }
+            return res.status(err.status).json({ code: err.status, error: err.message });
+        else if (err instanceof Error)
+            return res.status(500).json({ code: 515, error: "Internal Server Error" });
+        else if (typeof err === 'string')
+            return res.status(500).json({ code: 515, error: err });
+        else
+            return res.status(500).json({ code: 515, error: err.message ? err.message : err });
     }
 
-    constructor(basePath: String = "") {
+    constructor(basePath: String = "", {
+        isSupportJSON = true,
+        isSupportURLEncode = false,
+        isSupportText = false,
+        isSupportRaw = false,
+    }) {
         this.app = express();
         this.appRouter = new RESTRouter();
-        this.app.use(urlencoded({limit: '50mb', extended: true}));
-        this.app.use(json({limit: '50mb'}));
 
-        dotenv.config({ path: ".env" });
+        isSupportURLEncode && this.app.use(bodyParser.urlencoded());
+        isSupportJSON && this.app.use(bodyParser.json());
+        isSupportText && this.app.use(bodyParser.text());
+        isSupportRaw && this.app.use(bodyParser.raw());
+
         this.app.disable('x-powered-by');
         this.app.use((req, res, next) => {
             res.set(COMMON_HEADER);
             next();
         })
+    }
+
+    setListeningIP(ipAddress: string): RESTApi {
+        this.listeningIp = ipAddress;
+        return this;
     }
 
     setVersion(version): RESTApi {
@@ -77,11 +92,11 @@ export default class RESTApi {
         return this;
     }
 
-    static setDebugLevel(level: number = 5){
+    static setDebugLevel(level: number = 5) {
         setDebugLevel(level)
     }
 
-    static getDebugLevel():number{
+    static getDebugLevel(): number {
         return getDebugLevel()
     }
 
@@ -91,16 +106,19 @@ export default class RESTApi {
     }
 
     setErrorHandler(errorHandler): RESTApi {
+        this.appRouter.expressUseSingleParam((err, req, res, next) => this.errorHandler(err, req, res, next));
+        return this;
+    }
+
+    setErrorHandlerGlobal(errorHandler): RESTApi {
         this.errorHandler = errorHandler
         return this;
     }
 
     private setErrorHandlerInExpress(): RESTApi {
-        this.app.use((req, res, next) => {
-            throw new NotFound(req.originalUrl);
-        })
+        this.app.use((req, res, next) => next(new NotFound(req.originalUrl)))
 
-        this.app.use(this.errorHandler);
+        this.app.use((err, req, res, next) => this.errorHandler(err, req, res, next));
         return this;
     }
 
@@ -136,7 +154,6 @@ export default class RESTApi {
 
     filter(...handler: IRESTReqProcess[]): RESTApi {
         this.appRouter.filter.apply(this.appRouter, handler);
-        // this.app.use(RESTRouter.getCommonRequestWrapper(handler))
         return this;
     }
 
@@ -180,17 +197,18 @@ export default class RESTApi {
         return this;
     }
 
-    startListening(port: string = process.env.PORT, appName: string = process.env.APP_NAME, mode: string = process.env.ENV): Promise<Server> {
+    startListening(port: number, appName: string, mode: string): Promise<Server> {
         const self = this;
+        appName && (self.appName = appName)
+        port && (self.port = port)
+        mode && (self.mode = mode)
 
         self.app.use(this.appRouter.router);
         return new Promise<Server>((res, rej) => {
-            if (appName)
-                self.appName = appName;
             self.setErrorHandlerInExpress()
-            self.server = self.app.listen(port, () => {
+            self.server = self.app.listen(self.port, self.listeningIp, () => {
                 console.log(`\tAppName: ${self.appName}`)
-                console.log(`\tApp is running at http://localhost:${port} in ${mode} mode`)
+                console.log(`\tApp is running at http://${self.listeningIp}:${self.port} in ${self.mode} mode`)
                 console.log(`\tRunning App version is ${self.version}`)
                 console.log(`\tPress CTRL-C to stop `)
                 res(self.server);
