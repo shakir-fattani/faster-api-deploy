@@ -106,7 +106,7 @@ export default class RESTApi {
     }
 
     setErrorHandler(errorHandler): RESTApi {
-        this.appRouter.expressUseSingleParam((err, req, res, next) => this.errorHandler(err, req, res, next));
+        this.appRouter.expressUseSingleParam((err, req, res, next) => errorHandler(err, req, res, next));
         return this;
     }
 
