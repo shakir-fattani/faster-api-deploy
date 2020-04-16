@@ -17,6 +17,8 @@ import RESTResponse from './api/rest-Response';
 import * as HTTP_STATUS from './../utils/api/http-status-code'
 import * as CONSOLE_COLORS from './../utils/colors'
 
+let limitOfRequest = '100kb';
+
 export default class RESTApi {
     app: express.Express;
     server: Server;
@@ -59,10 +61,10 @@ export default class RESTApi {
         this.app = express();
         this.appRouter = new RESTRouter();
 
-        isSupportURLEncode && this.app.use(bodyParser.urlencoded());
-        isSupportJSON && this.app.use(bodyParser.json());
-        isSupportText && this.app.use(bodyParser.text());
-        isSupportRaw && this.app.use(bodyParser.raw());
+        isSupportURLEncode && this.app.use(bodyParser.urlencoded({limit:limitOfRequest}));
+        isSupportJSON && this.app.use(bodyParser.json({limit:limitOfRequest}));
+        isSupportText && this.app.use(bodyParser.text({limit:limitOfRequest}));
+        isSupportRaw && this.app.use(bodyParser.raw({limit:limitOfRequest}));
 
         this.app.disable('x-powered-by');
         this.app.use((req, res, next) => {
@@ -216,6 +218,10 @@ export default class RESTApi {
         })
     }
 
+    static setLimitOfRequest(limit): void {
+        limitOfRequest = limit;
+    }
+
     static get RESTRouter(): any {
         return RESTRouter;
     }
@@ -225,6 +231,7 @@ export default class RESTApi {
     static get HTTP_STATUS(): any {
         return HTTP_STATUS;
     }
+
     static get CONSOLE_COLORS(): any {
         return CONSOLE_COLORS;
     }

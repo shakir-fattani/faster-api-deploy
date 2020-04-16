@@ -9,6 +9,6 @@
   "author": "Shakir Fattani",
   "license": "GNU General Public License v3.0",
   "dependencies": {
-    "faster-api-deploy": "^1.0.24"
+    "faster-api-deploy": "^1.0.25"
   }
 }
